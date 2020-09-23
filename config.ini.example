@@ -1,0 +1,6 @@
+[account]
+username = USERNAME_HERE
+password = PASSWORD_HERE
+
+[course]
+course_id = COURSE_ID_HERE

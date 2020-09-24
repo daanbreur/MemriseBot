@@ -1,6 +1,6 @@
 # MemriseBot
-A automatic bot for Memrise.com
-** This bot is still in development**
+A automatic bot for Memrise.com </br>
+**This bot is still in development**
 
 ## How to use it.. 
 1. Make a copy of config.ini.example and rename it to config.ini

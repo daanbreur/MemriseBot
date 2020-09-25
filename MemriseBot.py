@@ -58,7 +58,11 @@ class MemriseBot:
             print("Couldn't open Course... Terminating Application.")
             exit()
 
-        self.import_wordlist()
+        word_list_elmnt = self.driver.find_elements_by_class_name('thing')
+        for word_elmnt in word_list_elmnt:
+            word_a = word_elmnt.find_element(By.XPATH, './/div[3]/div').text  # Word A
+            word_b = word_elmnt.find_element(By.XPATH, './/div[4]/div').text  # Word B
+            self.wordList.append(Word(word_a, word_b))
 
         try:
             self.driver.find_element_by_xpath(
@@ -70,27 +74,27 @@ class MemriseBot:
 
         self.start_guessing()
 
-    def import_wordlist(self):
-        word_list_elmnt = self.driver.find_elements_by_class_name('thing')
-        for word_elmnt in word_list_elmnt:
-            word_a = word_elmnt.find_element(By.XPATH, './/div[3]/div').text  # Word A
-            word_b = word_elmnt.find_element(By.XPATH, './/div[4]/div').text  # Word B
-            self.wordList.append(Word(word_a, word_b))
-
     def start_guessing(self):
         while True:
             sleep(2)
-            try:
-                next_btn = self.driver.find_element_by_xpath('/html/body/div[4]/div[3]/div/div/button')
-                next_btn.click()
-                print(f"[Question #{self.qIndex}] Skip Button")
-                self.qIndex += 1
-            except NoSuchElementException:
+            if self.check_exists_by_xpath('//*[@id="boxes"]/div/button'):
+                try:
+                    self.driver.find_element_by_xpath('//*[@id="boxes"]/div/button').click()  # Next Button
+                    print(f"[Question #{self.qIndex}] Next Button")
+                    self.qIndex += 1
+                except Exception:
+                    print( "An error has occurred at Next Button" )
+                    print( Exception )  
+            else:
                 if self.driver.find_element_by_xpath('/html/body/div[4]/div/p').text == 'Session complete!':
-                    self.driver.find_element_by_xpath('/html/body/div[5]/div[3]/div/div/div[3]').click()
-                    sleep(2)
-                    self.driver.find_element_by_xpath(
-                        '/html/body/div[5]/div[3]/div/div/div[3]/div[2]/div[5]/div/a').click()
+                    try:
+                        self.driver.find_element_by_xpath('/html/body/div[5]/div[3]/div/div/div[3]').click()
+                        sleep(2)
+                        self.driver.find_element_by_xpath('/html/body/div[5]/div[3]/div/div/div[3]/div[2]/div[5]/div/a').click()
+                    except Exception:
+                        print( "An error has occurred at Session Complete Button" )
+                        print( Exception )  
+                    
                 else:
                     answer = ''
                     question_txt = self.driver.find_element_by_xpath('//*[@id="prompt-row"]/div/div').text

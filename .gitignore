@@ -118,6 +118,7 @@ celerybeat.pid
 config.ini
 env/
 venv/
+pythonenv3.8/
 ENV/
 env.bak/
 venv.bak/

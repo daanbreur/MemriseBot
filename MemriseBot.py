@@ -30,15 +30,12 @@ class MemriseBot:
         print(f"[Login] Password: [censored]")
 
         try:
+            inpUsr = self.driver.find_element_by_id('username')
+            inpUsr.send_keys(self.username)  # Username Field
+            inpPwd = self.driver.find_element_by_id('password')
+            inpPwd.send_keys(self.password)  # Password Field
             self.driver.find_element_by_xpath(
-                '/html/body/div[3]/div[4]/div/div[2]/div/div/div/form/div[3]/input').send_keys(
-                self.username)  # Username Field
-            self.driver.find_element_by_xpath(
-                '/html/body/div[3]/div[4]/div/div[2]/div/div/div/form/div[4]/input'
-            ).send_keys(
-                self.password)  # Password Field
-            self.driver.find_element_by_xpath(
-                '/html/body/div[3]/div[4]/div/div[2]/div/div/div/form/input[3]').click()  # Submit Button
+                '//*[@id="__next"]/div/div[2]/div/form/div[3]/div[1]/button').click()  # Submit Button
             sleep(2)
         except NoSuchElementException:
             print("[Login] Failed... Terminating Application.")
